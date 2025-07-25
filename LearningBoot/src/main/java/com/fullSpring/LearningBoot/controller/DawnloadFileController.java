@@ -18,5 +18,6 @@ public class DawnloadFileController {
                 .header("Content-Disposition", "attachment; filename=\"data.txt\"")
                 .contentType(MediaType.TEXT_PLAIN)
                 .body(inputStreamResource);
+        
     }
 }
