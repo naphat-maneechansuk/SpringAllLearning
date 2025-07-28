@@ -5,10 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,11 +41,28 @@ public class ConnectdbApplication {
     }
 
     @Transactional
-    @GetMapping("/insertShop")
+    @PostMapping("/insertShop")
     public boolean insertShop(@RequestBody ShopDto shopDto) {
         int roleEffect = entityManager.createNativeQuery("INSERT INTO shop (shop_id, shop_name) VALUES (:shopId, :shopName)")
                 .setParameter("shopId", shopDto.getShopId())
                 .setParameter("shopName", shopDto.getShopName())
+                .executeUpdate();
+        return roleEffect > 0;
+    }
+    @Transactional
+    @PostMapping("/updateShop")
+    public boolean updateShop(@RequestBody ShopDto shopDto) {
+        int roleEffect = entityManager.createNativeQuery("UPDATE shop SET shop_id = :shopId, shop_name = :shopName WHERE shop_id = :shopId")
+                .setParameter("shopId", shopDto.getShopId())
+                .setParameter("shopName", shopDto.getShopName())
+                .executeUpdate();
+        return roleEffect > 0;
+    }
+    @Transactional
+    @GetMapping("/deleteShopById")
+    public boolean deleteShop(@RequestParam("id") String id) {
+        int roleEffect = entityManager.createNativeQuery("DELETE FROM shop WHERE shop_id = :shopId")
+                .setParameter("shopId", id)
                 .executeUpdate();
         return roleEffect > 0;
     }
