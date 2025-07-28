@@ -1,10 +1,11 @@
 package com.fullSpring.LearningBoot;
 
-import jakarta.persistence.Entity;
+import com.fullSpring.LearningBoot.dto.ShopDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Tuple;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @RestController
 public class ConnectdbApplication {
     @PersistenceContext
-    private EntityManager entityManager;
+    public EntityManager entityManager;
 
     @GetMapping("/test-db")
     public void testDB(){
@@ -20,8 +21,23 @@ public class ConnectdbApplication {
        for (Tuple tuple : resultFromDb) {
            String shop_id = tuple.get("shop_id",String.class);
            String shop_name = tuple.get("shop_name",String.class);
-
            System.out.println("Shop ID: " + shop_id + ", Shop Name: " + shop_name);
        }
+    }
+
+    @GetMapping("/getById")
+    public ShopDto getById(@RequestParam("id") String id ){
+        List<Tuple> resultFromDb = entityManager.createNativeQuery("SELECT * FROM shop WHERE shop_id = :inputId ", Tuple.class)
+                .setParameter("inputId", id)
+                .getResultList();
+        if (resultFromDb.isEmpty()) {
+            return null;
+        }else {
+            Tuple tuple = resultFromDb.get(0);
+            ShopDto shopDto = new ShopDto();
+            shopDto.setShopId(tuple.get("shop_id", String.class));
+            shopDto.setShopName(tuple.get("shop_name", String.class));
+            return shopDto;
+        }
     }
 }
