@@ -8,6 +8,4 @@ import lombok.experimental.Accessors;
 public class ShopDto {
     private String shopId;
     private String shopName;
-
-
 }
