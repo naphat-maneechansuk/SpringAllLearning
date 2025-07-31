@@ -7,24 +7,42 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/jpa")
 public class TestJpaController {
     @Autowired
     private ShopRepositoy shopRepositoy;
 
-    @GetMapping("jpa/getById")
+    @GetMapping("/getById")
     public Shop getByIdJpa(@RequestParam("id") String id ){
         return shopRepositoy.findById(id).orElse(null);
     }
 
 
-    @PostMapping("jpa/insertShop")
+    @PostMapping("/insertShop")
     public Shop insertJpa(@RequestBody Shop shop) {
         return shopRepositoy.save(shop);
     }
 
-    @PostMapping("jpa/updateShop")
+    @PostMapping("/updateShop")
     public Shop updateJpa(@RequestBody Shop shop) {
         return shopRepositoy.save(shop);
+    }
+
+    @GetMapping("/deleteShopById")
+    public boolean deleteShop(@RequestParam("id") String id) {
+        if (!shopRepositoy.existsById(id)) {
+            System.out.println("Shop with ID " + id + " does not exist.");
+            return false;
+        }
+        shopRepositoy.deleteById(id);
+        return !shopRepositoy.existsById(id);
+    }
+
+    @GetMapping("/getAllShops")
+    public List<Shop> getAllShops() {
+        return shopRepositoy.findAll();
     }
 }
