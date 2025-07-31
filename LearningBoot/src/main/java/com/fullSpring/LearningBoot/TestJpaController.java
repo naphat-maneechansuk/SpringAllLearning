@@ -50,4 +50,15 @@ public class TestJpaController{
     public List<Shop> getByShopName(@RequestParam("shopName") String shopName) {
         return shopRepositoy.findByShopName(shopName);
     }
+
+    @GetMapping("/getByShopNameNotLike")
+    public List<Shop> getByShopNameNotLike(@RequestParam("shopName") String shopName) {
+        return shopRepositoy.findByShopNameNotLike(shopName);
+    }
+
+
+    @GetMapping("/getByJpqlShopName")
+    public List<Shop> getByJpqlShopName(@RequestParam("inputString") String inputString) {
+        return shopRepositoy.findByJpqlShopName(inputString);
+    }
 }
