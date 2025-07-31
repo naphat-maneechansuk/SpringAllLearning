@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/jpa")
-public class TestJpaController {
+public class TestJpaController{
     @Autowired
     private ShopRepositoy shopRepositoy;
 
@@ -44,5 +44,10 @@ public class TestJpaController {
     @GetMapping("/getAllShops")
     public List<Shop> getAllShops() {
         return shopRepositoy.findAll();
+    }
+
+    @GetMapping("/getByShopName")
+    public List<Shop> getByShopName(@RequestParam("shopName") String shopName) {
+        return shopRepositoy.findByShopName(shopName);
     }
 }
