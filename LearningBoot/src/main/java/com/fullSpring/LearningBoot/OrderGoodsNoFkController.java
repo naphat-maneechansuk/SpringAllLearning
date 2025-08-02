@@ -22,10 +22,12 @@ public class OrderGoodsNoFkController {
 
     @PostMapping("/get")
     public OrderGoodsDto getOrderGoods(@RequestBody GetOrderGoodsDto getOrderGoodsDto) {
+        // ตรวจสอบว่ามี Order และ Goods ที่ระบุอยู่ในฐานข้อมูลหรือไม่
         OrderGoodsNoFk orderGoodsNoFk = orderGoodsNoFkRepository.findById(
                 new OrderGoodsPk().setGoodsId(getOrderGoodsDto.getGoodsId())
                         .setOrderId(getOrderGoodsDto.getOrderId())
         ).orElseThrow();
+        // บอกรูปแบบข้อมูลที่ต้องการส่งกลับ
         return new OrderGoodsDto()
                 .setOrderId(orderGoodsNoFk.getOrderGoodsPk().getOrderId())
                 .setGoodsId(orderGoodsNoFk.getOrderGoodsPk().getGoodsId())
@@ -36,6 +38,7 @@ public class OrderGoodsNoFkController {
 
     @PostMapping("/insert")
     public OrderGoodsDto insertOrderGoods(@RequestBody InsertOrderGoodsDto insertOrderGoodsDto){
+        // ตรวจสอบว่ามี Order และ Goods ที่ระบุอยู่ในฐานข้อมูลหรือไม่
         OrderGoodsNoFk orderGoodsNoFk = new OrderGoodsNoFk()
                 .setOrderGoodsPk(new OrderGoodsPk()
                         .setOrderId(insertOrderGoodsDto.getOrderId())
@@ -45,6 +48,8 @@ public class OrderGoodsNoFkController {
                 .setNumberOfPiece(insertOrderGoodsDto.getNumberOfPiece())
                 .setPricePerPiece(BigDecimal.valueOf(insertOrderGoodsDto.getPricePerPiece()));
         orderGoodsNoFk = orderGoodsNoFkRepository.save(orderGoodsNoFk);
+
+        // บอกรูปแบบข้อมูลที่ต้องการส่งกลับ
         return new OrderGoodsDto()
                 .setOrderId(orderGoodsNoFk.getOrderGoodsPk().getOrderId())
                 .setGoodsId(orderGoodsNoFk.getOrderGoodsPk().getGoodsId())
