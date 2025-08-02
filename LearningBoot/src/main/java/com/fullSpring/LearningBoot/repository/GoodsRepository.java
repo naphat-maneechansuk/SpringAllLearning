@@ -1,5 +1,6 @@
 package com.fullSpring.LearningBoot.repository;
 
+import com.fullSpring.LearningBoot.dto.GoodsDto;
 import com.fullSpring.LearningBoot.entity.Goods;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,8 +9,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface GoodsRepository extends JpaRepository<Goods,String> {
+     
      List<Goods> findByShopShopId(String shopId);
 
      @Query("SELECT g FROM Goods g WHERE g.shop.shopId = :shopId ")
      List<Goods> findByShopIdJpql(@Param("shopId") String shopId);
+
+     @Query("SELECT new com.fullSpring.LearningBoot.dto.GoodsDto(g.goodsId, g.goodsName, g.goodsPrice, g.shop.shopId, g.shop.shopName) FROM Goods g WHERE g.shop.shopId = :shopId")
+     List<GoodsDto> findByGoodsDtoByShopId(@Param("shopId") String shopId);
 }

@@ -71,4 +71,8 @@ public class GoodsController {
                     .setShopName(goods.getShop().getShopName());
         }).collect(Collectors.toList());
     }
+    @GetMapping("/goodsDto")
+    public List<GoodsDto> searhGoodsDto(@RequestParam("shopId") String shopId) {
+        return goodsRepository.findByGoodsDtoByShopId(shopId);
+    }
 }
