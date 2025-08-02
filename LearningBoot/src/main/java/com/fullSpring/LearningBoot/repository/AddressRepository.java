@@ -7,6 +7,4 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface AddressRepository extends JpaRepository<Address,String> {
-
-}
+public interface AddressRepository extends JpaRepository<Address,String> {}
