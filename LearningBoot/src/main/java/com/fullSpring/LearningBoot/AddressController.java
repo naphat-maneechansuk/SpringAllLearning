@@ -30,27 +30,25 @@ public class AddressController {
                 .setCity(address.getCity())
                 .setPostcode(address.getPostcode());
     }
-//ใช้ไม่ได้
-//    @PostMapping("/insertAddress")
-//    public AddressDto insertAddress(@RequestBody InsertAddressDto insertAddressDto) {
-//        User user =userRepository.findById(insertAddressDto.getUserId()).orElseThrow();
-//        Address address = new Address()
-//                .setUser(user)
-//                .setHouseNo(insertAddressDto.getHouseNo())
-//                .setSubDistrict(insertAddressDto.getSubDistrict())
-//                .setDistrict(insertAddressDto.getDistrict())
-//                .setCity(insertAddressDto.getCity())
-//                .setPostcode(insertAddressDto.getPostcode());
-//        addressRepository.save(address);
-//        return new AddressDto()
-//                .setUserId(address.getUserId())
-//                .setUserName(address.getUser().getUserName())
-//                .setHouseNo(address.getHouseNo())
-//                .setSubDistrict(address.getSubDistrict())
-//                .setDistrict(address.getDistrict())
-//                .setCity(address.getCity())
-//                .setPostcode(address.getPostcode());
-//    }
-    //ใชไม่ได้
 
+    @PostMapping("/insertAddress")
+    public AddressDto insertAddress(@RequestBody InsertAddressDto insertAddressDto) {
+        User user = userRepository.findById(insertAddressDto.getUserId()).orElseThrow();
+        Address address = new Address()
+                .setUser(user)
+                .setHouseNo(insertAddressDto.getHouseNo())
+                .setSubDistrict(insertAddressDto.getSubDistrict())
+                .setDistrict(insertAddressDto.getDistrict())
+                .setCity(insertAddressDto.getCity())
+                .setPostcode(insertAddressDto.getPostcode());
+        addressRepository.save(address);
+        return new AddressDto()
+                .setUserId(address.getUser().getUserId())
+                .setUserName(address.getUser().getUserName())
+                .setHouseNo(address.getHouseNo())
+                .setSubDistrict(address.getSubDistrict())
+                .setDistrict(address.getDistrict())
+                .setCity(address.getCity())
+                .setPostcode(address.getPostcode());
+    }
 }
