@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface GoodsRepository extends JpaRepository<Goods,String> {
-     
+
      List<Goods> findByShopShopId(String shopId);
 
      @Query("SELECT g FROM Goods g WHERE g.shop.shopId = :shopId ")
