@@ -8,6 +8,12 @@ import com.fullSpring.LearningBoot.repository.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -40,5 +46,29 @@ public class GoodsController {
                 .setGoodsPrice(goods.getGoodsPrice())
                 .setShopId(goods.getShop().getShopId())
                 .setShopName(goods.getShop().getShopName());
+    }
+
+    @GetMapping("/searchByShopId")
+    public List<GoodsDto> searhByShopId(@RequestParam("shopId") String shopId) {
+          return goodsRepository.findByShopShopId(shopId).stream().map(goods -> {
+              return new GoodsDto()
+                      .setGoodsId(goods.getGoodsId())
+                      .setGoodsName(goods.getGoodsName())
+                      .setGoodsPrice(goods.getGoodsPrice())
+                      .setShopId(goods.getShop().getShopId())
+                      .setShopName(goods.getShop().getShopName());
+          }).collect(Collectors.toList());
+    }
+
+    @GetMapping("/searchByShopId/jpql")
+    public List<GoodsDto> searhByShopIdJpql(@RequestParam("shopId") String shopId) {
+        return goodsRepository.findByShopIdJpql(shopId).stream().map(goods -> {
+            return new GoodsDto()
+                    .setGoodsId(goods.getGoodsId())
+                    .setGoodsName(goods.getGoodsName())
+                    .setGoodsPrice(goods.getGoodsPrice())
+                    .setShopId(goods.getShop().getShopId())
+                    .setShopName(goods.getShop().getShopName());
+        }).collect(Collectors.toList());
     }
 }
